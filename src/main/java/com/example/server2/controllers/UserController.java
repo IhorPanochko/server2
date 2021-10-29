@@ -25,7 +25,6 @@ public class UserController {
         usersService.addUsers();
     }
 
-
     @PostMapping(value = "/user/getByIds")
     public Flux<UserDto> getUsers(@RequestBody List<String> list) {
         return usersService.getUsersByIdList(list);

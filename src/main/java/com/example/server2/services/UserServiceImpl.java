@@ -2,6 +2,7 @@ package com.example.server2.services;
 
 import com.example.server2.documents.Users;
 import com.example.server2.dto.UserDto;
+import com.example.server2.exception.UsersNotFoundException;
 import com.example.server2.repository.UsersRepository;
 import com.example.server2.services.interfaces.UsersService;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class UserServiceImpl implements UsersService {
 
     @Override
     public Flux<UserDto> getUsersByIdList(List<String> userIds) {
-        return usersRepository.findAllByIdIn(userIds).flatMap(this::toDto);
+        return usersRepository.findAllByIdIn(userIds).flatMap(this::toDto)
+                .switchIfEmpty(Flux.error(new UsersNotFoundException("user list is empty", userIds.toString())));
     }
 
 

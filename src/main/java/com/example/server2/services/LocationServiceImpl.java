@@ -2,6 +2,7 @@ package com.example.server2.services;
 
 import com.example.server2.documents.Locations;
 import com.example.server2.dto.LocationDto;
+import com.example.server2.exception.LocationsNotFoundException;
 import com.example.server2.repository.LocationsRepository;
 import com.example.server2.services.interfaces.LocationService;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,9 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Flux<LocationDto> getByZipList(List<Long> zipIdList) {
-        return repository.findAllByZipIn(zipIdList).flatMap(this::toDto);
+        return repository.findAllByZipIn(zipIdList).
+                flatMap(this::toDto)
+                .switchIfEmpty(Flux.error(new LocationsNotFoundException("location list is empty", zipIdList.toString())));
     }
 
     @Override

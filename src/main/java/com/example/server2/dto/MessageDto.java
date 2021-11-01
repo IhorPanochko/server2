@@ -1,11 +1,11 @@
-package com.example.server2.kafka;
+package com.example.server2.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 
-@JsonRootName("MessageDto")
+//@JsonRootName("MessageDto")
 public class MessageDto implements Serializable {
 
     @JsonProperty("id")
@@ -13,6 +13,13 @@ public class MessageDto implements Serializable {
 
     @JsonProperty("message")
     private String message;
+
+    public MessageDto() {
+    }
+
+    public MessageDto(String message) {
+        this.message = message;
+    }
 
 
     public String getId() {
